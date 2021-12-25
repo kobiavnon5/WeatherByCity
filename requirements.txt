@@ -3,3 +3,4 @@ Flask
 requests
 configparser
 boto3
+python-dotenv

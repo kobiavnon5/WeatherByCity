@@ -1,5 +1,6 @@
 import config
 from boto3 import session
+from dotenv import load_dotenv
 import flask
 import requests
 import configparser
@@ -10,7 +11,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-
+load_dotenv()
 #def get_api_key():
 #    config = configparser.ConfigParser()
 #    config.read('config.ini')
@@ -25,8 +26,11 @@ def get_weather_results(city_name, api_key):
 def put_visitor(Date_Time, Paris_Weather, TelAviv_Weather, NewYork_Weather, Browser, IP_Address, dynamodb=None):
     if not dynamodb:
         #config = configparser.ConfigParser()
-        #config.read('config.ini')
+        #config.read('config.py')
+        accessid = os.getenv('aws_access_key_id')
         accessid = config.aws_access_key_id
+        print('accessid')
+        secretid = os.getenv('aws_secret_access_key')
         secretid = config.aws_secret_access_key
         #accessid = config['openweathermap']['aws_access_key_id']
         #secretid = config['openweathermap']['aws_secret_access_key']
@@ -51,7 +55,8 @@ def put_visitor(Date_Time, Paris_Weather, TelAviv_Weather, NewYork_Weather, Brow
 
 def home():
     city_name1 = "Paris"
-    api_key = config.api
+    api_key = os.getenv('api')
+    #api_key = config.api
     #api_key = get_api_key()
     data1 = get_weather_results(city_name1, api_key)
     temp1 = "{0:.2f}".format(data1["main"]["temp"])
